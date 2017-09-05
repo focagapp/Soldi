@@ -29,7 +29,6 @@ public class MovimentoActivity extends Activity {
     float amountFloat;
     RadioButton togli;
     public static File mov;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,8 +40,8 @@ public class MovimentoActivity extends Activity {
         Calendar calendar = Calendar.getInstance();
         int thisYear = calendar.get(Calendar.YEAR);
         int thisMonth = calendar.get(Calendar.MONTH);
+        thisMonth ++;
         mov = new File(this.getFilesDir(),"movimenti"+thisMonth+""+thisYear+".txt");
-
 
 
         procedi.setOnClickListener(new View.OnClickListener() {
@@ -67,9 +66,11 @@ public class MovimentoActivity extends Activity {
                     if (togli.isChecked())
                         amountFloat=amountFloat*-1;
                     try {
+                        //prendo la data e l'ora da scrivere sul file
+                        Date currentDate = new Date();
+                        String s = amountFloat+" - "+currentDate.toString().substring(0,19)+"\n";
                         //scrivo il movimento nel file movimentoMMYY
                         FileOutputStream fos = new FileOutputStream(mov,true);
-                        String s = amountFloat+"";
                         fos.write(s.getBytes());
                         fos.close();
                         //cambio file e passo a saldo, per aggiornarlo
@@ -83,7 +84,7 @@ public class MovimentoActivity extends Activity {
                         float saldo = sal.floatValue()+amountFloat;
                         //aggiorno
                         fos = new FileOutputStream(mov);
-                        s = saldo+"";
+                        s = saldo + "";
                         fos.write(s.getBytes());
                         fos.close();
                     } catch (IOException e) {
