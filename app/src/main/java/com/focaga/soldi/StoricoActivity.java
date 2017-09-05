@@ -15,11 +15,15 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.Calendar;
+import java.util.StringTokenizer;
 
 public class StoricoActivity extends Activity {
     TextView val;
     TextView title;
+    TextView totUscite, totEntrate;
     Button precedente, successivo;
+    StringTokenizer tok;
+    float uscite, entrate;
     int thisYear, thisMonth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,8 @@ public class StoricoActivity extends Activity {
         setContentView(R.layout.activity_storico);
         val = (TextView) findViewById(R.id.textView);
         title = (TextView) findViewById(R.id.movTitle);
+        totEntrate = (TextView) findViewById(R.id.entrate);
+        totUscite = (TextView) findViewById(R.id.uscite);
         precedente = (Button) findViewById(R.id.precedente);
         successivo = (Button) findViewById(R.id.successivo);
         //prendo mese e anno per visualizzare il file corretto
@@ -91,6 +97,8 @@ public class StoricoActivity extends Activity {
         precedente.setText(risolviMese(thisMonth-1));
         successivo.setText(risolviMese(thisMonth+1));
         File mov = new File(this.getFilesDir(),"movimenti"+mese+""+anno+".txt");
+        entrate = 0;
+        uscite = 0;
         if (!mov.exists()) {
             val.setText("Non ci sono movimenti per questo mese!");
         }
@@ -98,20 +106,31 @@ public class StoricoActivity extends Activity {
         try {
             FileInputStream fis = new FileInputStream(mov);
             InputStreamReader isr = new InputStreamReader(fis, Charset.forName("UTF-8"));
+
             BufferedReader br = new BufferedReader(isr);
             String s = br.readLine();
             while (s != null) {
                 //se è un numero positivo aggiungo un + alla stringa, per visualizzare meglio
-                if (!(s.substring(0,1).equalsIgnoreCase("-")))
+                if (!(s.substring(0,1).equalsIgnoreCase("-"))) {
                     movimenti += "\n+" + s;
-                else
+                    tok = new StringTokenizer(s, "%");
+                    Double amount = Double.parseDouble(tok.nextToken());
+                    entrate += amount.floatValue();
+                } else {
                     movimenti += "\n" + s;
+                    tok = new StringTokenizer(s, "%");
+                    Double amount = Double.parseDouble(tok.nextToken());
+                    uscite += amount.floatValue();
+                }
                 s = br.readLine();
 
             }
             val.setText("Movimenti: " + movimenti);
+
         } catch (java.io.IOException e) {
             e.printStackTrace();
         }
+        totEntrate.setText("Totale Entrate: "+entrate);
+        totUscite.setText("Totale Uscite: "+uscite);
     }
 }

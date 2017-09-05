@@ -30,12 +30,24 @@
         android:layout_alignParentTop="true"
         android:text="Button" />
 
+    <TextView
+        android:id="@+id/entrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/precedente">
+        android:id="@+id/scrollView2"
+        android:layout_toStartOf="@+id/successivo"
+        android:layout_below="@+id/precedente"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/entrate">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,5 +63,15 @@
                 tools:layout_editor_absoluteY="174dp" />
         </LinearLayout>
     </ScrollView>
+
+    <TextView
+        android:id="@+id/uscite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 
 </RelativeLayout>

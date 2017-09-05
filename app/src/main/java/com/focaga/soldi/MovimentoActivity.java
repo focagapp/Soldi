@@ -68,7 +68,7 @@ public class MovimentoActivity extends Activity {
                     try {
                         //prendo la data e l'ora da scrivere sul file
                         Date currentDate = new Date();
-                        String s = amountFloat+" - "+currentDate.toString().substring(0,19)+"\n";
+                        String s = amountFloat+" % "+currentDate.toString().substring(0,19)+"\n";
                         //scrivo il movimento nel file movimentoMMYY
                         FileOutputStream fos = new FileOutputStream(mov,true);
                         fos.write(s.getBytes());
